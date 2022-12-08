@@ -1,0 +1,42 @@
+
+FUNCTIONS THAT MADE SENSE IN MULTIPLE CLASSES
+(1) shiftView >> WorldView
+this method was ambiguous since it used a clamp function which remained in the functions class but also used WorldView data. I moved it to WorldView since that seemed to be driving the shift view action.
+
+(2) withinBounds >> WorldModel
+This function equally used the Point and worldModel data so it was pretty confusing but I thought that it made more sense for WorldModel to call this method on point objects since point objects would vary more. 
+Ex: World.withinBounds(P1), World.withinBounds(P2) makes more sense than P1.withinBounds(world), P2.withinBounds(world)
+
+(3) addEntity >> WorldModel
+For this function, I was split between EntityTemp and WorldModel. However, the function used withinBounds and setOccupancyCell (functions I felt also belonged in world model). Also, similar to the logic in #2, it made more sense for the world to call addEntity on varying entities vs. entity calling addEntity on a constant world.
+
+(4) IsOccupied >> WorldModel
+This one followed the same logic as the 2 above, where it was evenly split between world and point, but it made more sense for world to call this method on varying points. 
+
+(5) getBackgroundCell >> WorldModel
+Again, same logic as the ones above, it took in world and point data evenly but it made more sense to call the method on varying points. 
+
+(5) execute*Activity (Fairy, Tree, etc) >> EntityTemp
+These functions took in multiple points as parameters and used world and schedule methods too. The function seems to work on entity data the mostly so I moved it to the EntityTemp class. Also, some of functions in this function reasonably belonged in EntityTemp as well so placing it here made sense.
+
+(6) transformFull / transformNotFull >> EntityTemp
+These functions seemed to use world methods often, however the function was using/passing in EntityTemp dude often (made up entirely of entity data) so it made sense to keep this in EntityTemp. TransformNotFull took in the EntityTemp resourceCount/Limit data so that made sense in EntityTemp too.
+
+(7) nextPosition* (Fairy, Dude) >> EntityTemp
+This takes in entity, world, and points and uses point data, entity data, and world methods. I saw the entity data was being grabbed more frequently though, and there were comparisons being made to EntityKind. This is why I placed it in EntityTemp.
+
+(8) scheduleActions >> EntityTemp
+Schedule actions was confusing since it made sense in scheduler or entity. However, the data driving the function was the entity.kind and the different types of entities. Depending on that, the scheduler functions ran in certain way. This is why I kept it in entity.
+
+(9) getCurrentImage >> EntityTemp and Background
+Since this function took used background/ entity data evenly, I split the function so that it could be called by an entity or by a background.
+
+FUNCTIONS THAT MADE SENSE TO LEAVE IN FUNCTIONS CLASS
+(10) nearestEntity
+This accesses a list of entities and works on the data entity nearest and entity other. It made sense to just leave it in the function class since entity/ point would not need to access nearestEntity if its using a list of other entities in the function.
+
+(11) parse functions (parseObstacle, parseStump, parseHouse etc)
+These were confusing since they took in the world as a parameter and used the tryAddEntity method but it seemed to mostly compare and use data from the functions class anyways (especially parseEntity). This was why I left it in the functions. 
+
+(12) create functions
+These didn’t really use class data although they were returning an entity object. They were determining its behavior based on the Kind but it didnt feel necessary to move it into the entity class. 

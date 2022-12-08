@@ -70,7 +70,7 @@ public class AngryDude implements AnimatingEntity, ActionEntity, MovingEntity{
 			Point tgtPos = target.get().getPosition();
 
 			if (getPosition().adjacent(tgtPos)) {
-				world.removeEntity(scheduler, target.get());
+				world.removeEntityAt(tgtPos);
 				transformFull(world, scheduler, imageStore);
 			}
 		}
@@ -88,7 +88,8 @@ public class AngryDude implements AnimatingEntity, ActionEntity, MovingEntity{
 	}
 
 	public void transformFull(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
-		DudeNotFull dude = Functions.createDudeNotFull(this.id, this.position, this.actionPeriod, this.animationPeriod, this.resourceLimit, this.images);
+		DudeNotFull dude = Functions.createDudeNotFull(Functions.DUDE_KEY, this.position, this.actionPeriod, this.animationPeriod,
+						   this.resourceLimit, imageStore.getImageList("dude"));
 
 		world.removeEntity(scheduler, this);
 

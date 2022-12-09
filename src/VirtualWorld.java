@@ -3,10 +3,7 @@ import processing.core.PImage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public final class VirtualWorld extends PApplet {
     private static String[] ARGS;
@@ -86,6 +83,7 @@ public final class VirtualWorld extends PApplet {
         buildEvent(pressed, outer_dam, 3);
 
 		addBeaver(world, scheduler, imageStore, pressed);
+        angerDudes(world, scheduler, imageStore, pressed);
 
 		world.setBackgroundCell(new Point(pressed.x, pressed.y + 1), inner_dam1);
 		world.setBackgroundCell(new Point(pressed.x + 1, pressed.y + 1), inner_dam2);
@@ -109,6 +107,19 @@ public final class VirtualWorld extends PApplet {
 		world.addEntity(beaver);
 		beaver.scheduleActions(scheduler, world, imageStore);
 	}
+
+    public void angerDudes(WorldModel world, EventScheduler scheduler, ImageStore imageStore, Point pt) {
+        Optional<Entity> dudeTarget = world.findNearest(pt, new ArrayList<>(List.of(DudeFull.class, DudeNotFull.class)));
+        if (dudeTarget.isPresent()) {
+            if (dudeTarget.get().getClass() == DudeNotFull.class) {
+                ((DudeNotFull)dudeTarget.get()).transformAngry(world, scheduler, imageStore);
+            }
+            else {
+                ((DudeFull)dudeTarget.get()).transformAngry(world, scheduler, imageStore);
+            }
+        }
+
+    }
 
 
     private void scheduleActions(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {

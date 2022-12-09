@@ -89,4 +89,15 @@ public class DudeFull implements AnimatingEntity, ActionEntity, MovingEntity {
 			return MovingEntity.super.moveTo(world, target, scheduler);
 		}
 	}
+
+	public boolean transformAngry (WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
+		AngryDude dude = Functions.createAngryDude(this.id, this.position, this.actionPeriod, this.animationPeriod, this.resourceLimit, imageStore.getImageList(Functions.ANGRY_DUDE_KEY));
+
+		world.removeEntity(scheduler, this);
+		scheduler.unscheduleAllEvents(this);
+
+		world.addEntity(dude);
+		dude.scheduleActions(scheduler, world, imageStore);
+		return true;
+	}
 }

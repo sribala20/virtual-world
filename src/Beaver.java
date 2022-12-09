@@ -77,10 +77,7 @@ public class Beaver implements ActionEntity, MovingEntity {
 			Point tgtPos = beaverTarget.get().getPosition();
 
 			if (this.moveTo(world, beaverTarget.get(), scheduler)) {
-				//((Tree)beaverTarget.get()).transformToHole();
-				//world.removeEntity(scheduler, beaverTarget.get());
-
-				Hole hole = Functions.createHole(Functions.HOLE_KEY + "_" + getId(), getPosition(), imageStore.getImageList(Functions.HOLE_KEY));
+				Hole hole = Functions.createHole(Functions.HOLE_KEY + "_" + getId(), tgtPos, imageStore.getImageList(Functions.HOLE_KEY));
 				world.addEntity(hole);
 			}
 		}

@@ -71,11 +71,7 @@ public final class VirtualWorld extends PApplet {
         Point pressed = mouseToPoint();
         System.out.println("CLICK! " + pressed.x + ", " + pressed.y);
 		System.out.println(scheduler.getCurrentTime());
-        Optional<Entity> entityOptional = world.getOccupant(pressed);
-        if (entityOptional.isPresent()) {
-            PlantEntity entity = (PlantEntity) entityOptional.get();
-            System.out.println(entity.getId() + ": " + entity.getClass());
-        }
+
         Background outer_dam = new Background("outer_dam", imageStore.getImageList("outer_dam"));
 		Background inner_dam1 = new Background("inner_dam1", imageStore.getImageList("inner_dam1"));
 		Background inner_dam2 = new Background("inner_dam2", imageStore.getImageList("inner_dam2"));
